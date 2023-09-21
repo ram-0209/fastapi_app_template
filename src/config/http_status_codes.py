@@ -4,12 +4,13 @@
 from enum import Enum
 
 
-class HttpStatusCodes:  # pylint: disable=too-few-public-methods
+class HttpStatusCodes:
     """
     Nested Classes for StatusCodes response and StatusCodesDesription response
     """
 
     def __init__(self):
+        # Empty init class
         pass
 
     class StatusCodes(Enum):

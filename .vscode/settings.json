@@ -8,5 +8,5 @@
         }
     },
     "editor.formatOnSave": true,
-    "flake8.importStrategy": "fromEnvironment"
+    "editor.defaultFormatter": "ms-python.black-formatter"
 }

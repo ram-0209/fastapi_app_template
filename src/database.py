@@ -9,8 +9,6 @@ from sqlalchemy.ext.declarative import as_declarative, declared_attr
 from sqlalchemy.orm import sessionmaker
 from sqlmodel import Session
 
-from src.model import user_model
-
 load_dotenv()
 
 
@@ -55,14 +53,17 @@ def get_engine():
 
     else:
         connection_url = sqlalchemy.engine.URL.create(
-            "mysql+mysqlconnector",
+            "mssql+pyodbc",
             username=os.getenv("db_username"),
             password=os.getenv("db_password"),
             host=os.getenv("db_host"),
-            port=3306,
             database=os.getenv("db_name"),
+            query={
+                "driver": "ODBC Driver 17 for SQL Server",
+                "autocommit": "True",
+            },
         )
-        engine = create_engine(connection_url).execution_options(
+        engine = sqlalchemy.create_engine(connection_url).execution_options(
             isolation_level="AUTOCOMMIT"
         )
     return engine
@@ -72,10 +73,6 @@ engine = get_engine()
 engine.dialect.identifier_preparer.initial_quote = ""
 engine.dialect.identifier_preparer.final_quote = ""
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-
-def create_user_db_and_tables():
-    user_model.SQLModel.metadata.create_all(engine)
 
 
 @as_declarative()

@@ -9,9 +9,6 @@ from fastapi.responses import JSONResponse
 
 from src.api import user_api
 from src.config.app_config import settings
-from src.database import create_user_db_and_tables
-
-create_user_db_and_tables()
 
 
 def get_application():
