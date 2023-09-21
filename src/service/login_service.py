@@ -1,3 +1,4 @@
+"""Login Service"""
 import random
 import string
 from datetime import datetime, timedelta, timezone
@@ -19,14 +20,40 @@ oauth2_bearer = OAuth2PasswordBearer(tokenUrl="token")
 
 
 def get_password_hash(password):
+    """get_password_hash
+
+    Args:
+        password (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     return bcrypt_context.hash(password)
 
 
 def verify_password(plain_password, hashed_password):
+    """verify_password
+
+    Args:
+        plain_password (_type_): _description_
+        hashed_password (bool): _description_
+
+    Returns:
+        _type_: _description_
+    """
     return bcrypt_context.verify(plain_password, hashed_password)
 
 
 def get_user(username: str, session):
+    """get_user
+
+    Args:
+        username (str): _description_
+        session (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     user = user_repository.get_user_by_username_db(
         username["preferred_username"], session
     )
@@ -39,6 +66,16 @@ def get_user(username: str, session):
 
 # Make same as like other function the query need to call from repository
 def authenticated_user(username: str, password: str, session):
+    """authenticate_user
+
+    Args:
+        username (str): _description_
+        password (str): _description_
+        session (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     if user := user_repository.get_user_by_username_db(username, session):
         return user[0] if verify_password(password, user[0].password) else False
     else:
@@ -48,6 +85,16 @@ def authenticated_user(username: str, password: str, session):
 def create_access_token(
     username: str, user_id: int, expires_delta: Optional[timedelta] = None
 ):
+    """Create access Token
+
+    Args:
+        username (str): _description_
+        user_id (int): _description_
+        expires_delta (Optional[timedelta], optional): _description_. Defaults to None.
+
+    Returns:
+        _type_: _description_
+    """
     encode = {"sub": username, "id": user_id}
     if expires_delta:
         expire = datetime.now(timezone.utc) + expires_delta
@@ -58,6 +105,18 @@ def create_access_token(
 
 
 def get_current_user(token: str = Depends(oauth2_bearer)):
+    """Get Current User
+
+    Args:
+        token (str, optional): _description_. Defaults to Depends(oauth2_bearer).
+
+    Raises:
+        get_user_exception: _description_
+        get_user_exception: _description_
+
+    Returns:
+        _type_: _description_
+    """
     try:
         payload = jwt.decode(token, SECRET, algorithms=[ALGORITHM])
         username: str = payload.get("sub")
@@ -70,6 +129,17 @@ def get_current_user(token: str = Depends(oauth2_bearer)):
 
 
 def check_user_valid(token: str):
+    """Check if user is valid
+
+    Args:
+        token (str): _description_
+
+    Raises:
+        get_user_exception: _description_
+
+    Returns:
+        _type_: _description_
+    """
     try:
         payload = jwt.decode(token, SECRET, algorithms=[ALGORITHM])
         username: str = payload.get("sub")
@@ -80,11 +150,28 @@ def check_user_valid(token: str):
 
 
 def get_random_password(length):
+    """Get Random Password
+
+    Args:
+        length (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     characters = string.ascii_letters + string.digits + string.punctuation
     return "".join(random.choice(characters) for _ in range(length))
 
 
 def token_create_user(data_obj, session):
+    """Token Create User
+
+    Args:
+        data_obj (_type_): _description_
+        session (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """
     random_password = get_random_password(length=8)
     new_user = User(
         username=data_obj["preferred_username"],

@@ -1,39 +1,27 @@
 from fastapi.testclient import TestClient
 
-from src.database import Session, engine, get_session
-from src.main import app
-
-client = TestClient(app)
+from tests.factories import user_factories
+from tests.fixtures.setup_fixtures import client_fixture, session_fixture
 
 
-def override_get_session():
-    with Session(engine) as session:
-        yield session
+def test_create_user(client: TestClient):
+    """Test function for Create user
 
-
-app.dependency_overrides[get_session] = override_get_session
-
-
-def test_create_user():
+    Args:
+        client (TestClient): _description_
+    """
     response = client.post(
         "/api/create_user",
-        json={
-            "last_name": "user22",
-            "is_superuser": False,
-            "is_staff": False,
-            "date_joined": "",
-            "first_name": "test",
-            "password": "test@123",
-            "email": "testuser@xyz.com",
-            "last_login": False,
-            "username": "test_user22",
-            "is_active": False,
-        },
+        json=user_factories.test_user,
     )
     assert response.status_code == 200
 
 
-def test_get_user():
-    username = "test_user10"
-    response = client.get(f"/api/user?username={username}")
+def test_get_user(client: TestClient):
+    """Test Function for Get user by username
+
+    Args:
+        client (TestClient): _description_
+    """
+    response = client.get(f"/api/user?username={user_factories.username}")
     assert response.status_code == 200

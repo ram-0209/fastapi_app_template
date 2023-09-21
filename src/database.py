@@ -1,3 +1,4 @@
+"""Database Connection"""
 import os
 import struct
 

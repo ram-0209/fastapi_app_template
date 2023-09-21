@@ -1,3 +1,4 @@
+"""Service Layer for User APIs"""
 from fastapi import Depends
 from sqlmodel import Session
 
