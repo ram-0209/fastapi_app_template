@@ -1,3 +1,4 @@
+"""JWT authentication"""
 from fastapi import Request
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 
@@ -6,6 +7,14 @@ from src.service.login_service import check_user_valid
 
 
 def verify_jwt(jwtoken: str):
+    """Verify JWT
+
+    Args:
+        jwtoken (str): _description_
+
+    Returns:
+        _type_: _description_
+    """
     try:
         payload = check_user_valid(jwtoken)
     except Exception:
@@ -14,8 +23,10 @@ def verify_jwt(jwtoken: str):
 
 
 class JWTBearer(HTTPBearer):
-    """
-    JWT Authentication class
+    """JWT Authentication class
+
+    Args:
+        HTTPBearer (_type_): _description_
     """
 
     def __init__(self, auto_error: bool = True):

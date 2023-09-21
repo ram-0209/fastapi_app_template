@@ -1,15 +1,22 @@
+"""User SQL Models"""
 from datetime import datetime
 from typing import Union
 
 from pydantic import BaseModel
 from sqlmodel import VARCHAR, Column, Field, SQLModel
 
+from src.config.app_config import SCHEMA
+
 
 class User(SQLModel, table=True):
-    """User Model"""
+    """SQL Model for User table
 
-    __tablename__ = "user"
-    __table_args__ = {"schema": "test"}
+    Args:
+        SQLModel (_type_): _description_
+        table (bool, optional): _description_. Defaults to True.
+    """
+
+    __tablename__ = f"{SCHEMA}.user"
     id: int = Field(default=None, primary_key=True)
     password: str = Field(sa_column=Column(VARCHAR(54), nullable=False))
     last_login: datetime = Field(default=None)
@@ -24,13 +31,21 @@ class User(SQLModel, table=True):
 
 
 class Token(BaseModel):
-    """Token Model"""
+    """Model for Token
+
+    Args:
+        BaseModel (_type_): _description_
+    """
 
     access_token: str
     token_type: str
 
 
 class TokenData(BaseModel):
-    """Token Data Model"""
+    """Model for Token Data
+
+    Args:
+        BaseModel (_type_): _description_
+    """
 
     username: Union[str, None] = None
