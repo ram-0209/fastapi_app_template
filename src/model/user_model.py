@@ -9,12 +9,7 @@ from src.config.app_config import SCHEMA
 
 
 class User(SQLModel, table=True):
-    """SQL Model for User table
-
-    Args:
-        SQLModel (_type_): _description_
-        table (bool, optional): _description_. Defaults to True.
-    """
+    """SQL Model for User table"""
 
     __tablename__ = f"{SCHEMA}.user"
     id: int = Field(default=None, primary_key=True)
@@ -31,21 +26,13 @@ class User(SQLModel, table=True):
 
 
 class Token(BaseModel):
-    """Model for Token
-
-    Args:
-        BaseModel (_type_): _description_
-    """
+    """Model for Token"""
 
     access_token: str
     token_type: str
 
 
 class TokenData(BaseModel):
-    """Model for Token Data
-
-    Args:
-        BaseModel (_type_): _description_
-    """
+    """Model for Token Data"""
 
     username: Union[str, None] = None

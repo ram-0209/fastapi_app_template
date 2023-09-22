@@ -10,10 +10,10 @@ def verify_jwt(jwtoken: str):
     """Verify JWT
 
     Args:
-        jwtoken (str): _description_
+        jwtoken (str): JWT Token
 
     Returns:
-        _type_: _description_
+        _type_: bool(payload)
     """
     try:
         payload = check_user_valid(jwtoken)
@@ -23,11 +23,7 @@ def verify_jwt(jwtoken: str):
 
 
 class JWTBearer(HTTPBearer):
-    """JWT Authentication class
-
-    Args:
-        HTTPBearer (_type_): _description_
-    """
+    """JWT Authentication class"""
 
     def __init__(self, auto_error: bool = True):
         super(JWTBearer, self).__init__(auto_error=auto_error)

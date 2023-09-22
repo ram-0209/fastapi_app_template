@@ -8,9 +8,9 @@ def logger_wraps(*, entry=True, exit=True, level="DEBUG"):
     """Logger Wraps
 
     Args:
-        entry (bool, optional): _description_. Defaults to True.
-        exit (bool, optional): _description_. Defaults to True.
-        level (str, optional): _description_. Defaults to "DEBUG".
+        entry (bool, optional):  Defaults to True.
+        exit (bool, optional): Defaults to True.
+        level (str, optional):  Defaults to "DEBUG".
     """
 
     def wrapper(func):

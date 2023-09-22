@@ -5,17 +5,7 @@ from pydantic import AnyHttpUrl, BaseSettings, validator
 
 
 class Settings(BaseSettings):
-    """Base Settings Class
-
-    Args:
-        BaseSettings (_type_): _description_
-
-    Raises:
-        ValueError: _description_
-
-    Returns:
-        _type_: _description_
-    """
+    """Base Settings Class"""
 
     PROJECT_NAME: str
     BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = []
@@ -25,13 +15,13 @@ class Settings(BaseSettings):
         """assemble_cors_origins
 
         Args:
-            v (Union[str, List[str]]): _description_
+            v (Union[str, List[str]]):
 
         Raises:
-            ValueError: _description_
+            ValueError: ValueError(v)
 
         Returns:
-            Union[List[str], str]: _description_
+            Union[List[str], str]: v
         """
         if isinstance(v, str) and not v.startswith("["):
             return [i.strip() for i in v.split(",")]

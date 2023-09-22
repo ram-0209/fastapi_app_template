@@ -10,7 +10,11 @@ from src.main import app
 
 @pytest.fixture(name="session")
 def session_fixture():
-    """Session Setup"""
+    """Session Setup
+
+    Yields:
+        _type_: session
+    """
 
     engine = create_engine(
         "sqlite://",
@@ -24,7 +28,11 @@ def session_fixture():
 
 @pytest.fixture(name="client")
 def client_fixture(session: Session):
-    """Test Client Setup"""
+    """Test Client Setup
+
+    Args:
+        session (Session): session
+    """
 
     def get_session_override():
         return session
